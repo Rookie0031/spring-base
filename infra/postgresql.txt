@@ -3,9 +3,43 @@ docker run --name spring-postgres -e POSTGRES_PASSWORD=spring123 -e POSTGRES_USE
 
 
 ---
-# Normal
+# macos
 brew install postgresql@14
 brew services start postgresql@14
 createuser -s spring
 createdb -O spring springdb
 psql -d springdb -c "ALTER USER spring WITH PASSWORD 'spring123';"
+
+
+---
+# Amazon Linux 2023
+
+sudo dnf install -y postgresql15 postgresql15-server
+sudo /usr/bin/postgresql-15-setup initdb
+
+# PostgreSQL 서비스 시작 및 활성화
+sudo postgresql-setup --initdb
+
+# PostgreSQL 서비스 시작 및 활성화
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+
+# spring 사용자 생성 (superuser 권한)
+sudo -u postgres psql -c "CREATE USER spring WITH SUPERUSER;"
+
+# spring 소유의 springdb 데이터베이스 생성
+sudo -u postgres createdb -O spring springdb
+
+# spring 사용자 비밀번호 설정
+sudo -u postgres psql -d springdb -c "ALTER USER spring WITH PASSWORD 'spring123';"
+
+
+# Service White List 설정
+sudo vi /var/lib/pgsql/data/postgresql.conf --> listen_addresses = '*'	
+sudo vi /var/lib/pgsql/data/pg_hba.conf 
+--> 맨 아래에 아래 항목 추가 
+host    springdb        spring          10.0.0.0/16             scram-sha-256 
+
+# 설정값 적용 재시작
+sudo systemctl restart postgresql

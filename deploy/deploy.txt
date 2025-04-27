@@ -1,0 +1,10 @@
+
+LOCAL_BINARY_JAR_PATH="your_jar_file_path"
+LOCAL_BUILD_JAR_PAHT="jar_file_build_path"
+cp ${LOCAL_BUILD_JAR_PAHT} ${LOCAL_BINARY_JAR_PATH}
+
+---
+
+SSH_KEY_PATH="ssh_key_path"
+SERVER_PUBLIC_IP="ec2_public_ip"
+scp -i ${SSH_KEY_PATH} ${LOCAL_BINARY_JAR_PATH} ec2-user@${SERVER_PUBLIC_IP}:~/server/
