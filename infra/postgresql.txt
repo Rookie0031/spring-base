@@ -1,1 +1,11 @@
+# Docker
 docker run --name spring-postgres -e POSTGRES_PASSWORD=spring123 -e POSTGRES_USER=spring -e POSTGRES_DB=springdb -p 5432:5432 -d postgres:latest
+
+
+---
+# Normal
+brew install postgresql@14
+brew services start postgresql@14
+createuser -s spring
+createdb -O spring springdb
+psql -d springdb -c "ALTER USER spring WITH PASSWORD 'spring123';"
