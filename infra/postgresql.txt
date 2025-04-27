@@ -1,0 +1,1 @@
+docker run --name spring-postgres -e POSTGRES_PASSWORD=spring123 -e POSTGRES_USER=spring -e POSTGRES_DB=springdb -p 5432:5432 -d postgres:latest
